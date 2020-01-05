@@ -1,0 +1,78 @@
+{
+    // Use IntelliSense to learn about possible Node.js debug attributes.
+    // Hover to view descriptions of existing attributes.
+    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "type": "node",
+            "request": "launch",
+            "name": "[LiteRT/Observable.js] Event Example - Timer",
+            "program": "${workspaceRoot}/src/examples/Events/01-timer.ts",
+            "cwd": "${workspaceFolder}",
+            "outFiles": [
+                "${workspaceRoot}/lib/*.js",
+                "${workspaceRoot}/lib/**/*.js",
+                "${workspaceRoot}/examples/*.js",
+                "${workspaceRoot}/examples/**/*.js"
+            ],
+            "sourceMaps": true
+        },
+        {
+            "type": "node",
+            "request": "launch",
+            "name": "[LiteRT/Observable.js] Messenger Example: Demo",
+            "program": "${workspaceRoot}/src/examples/Messengers/01-demo.ts",
+            "cwd": "${workspaceFolder}",
+            "outFiles": [
+                "${workspaceRoot}/lib/*.js",
+                "${workspaceRoot}/lib/**/*.js",
+                "${workspaceRoot}/examples/*.js",
+                "${workspaceRoot}/examples/**/*.js"
+            ],
+            "sourceMaps": true
+        },
+        {
+            "type": "node",
+            "request": "launch",
+            "name": "[LiteRT/Observable.js] Promises Example: Standard",
+            "program": "${workspaceRoot}/src/examples/Promises/01-standard.ts",
+            "cwd": "${workspaceFolder}",
+            "outFiles": [
+                "${workspaceRoot}/lib/*.js",
+                "${workspaceRoot}/lib/**/*.js",
+                "${workspaceRoot}/examples/*.js",
+                "${workspaceRoot}/examples/**/*.js"
+            ],
+            "sourceMaps": true
+        },
+        {
+            "type": "node",
+            "request": "launch",
+            "name": "[LiteRT/Observable.js] Promises Example: Timeout",
+            "program": "${workspaceRoot}/src/examples/Promises/02-timeout.ts",
+            "cwd": "${workspaceFolder}",
+            "outFiles": [
+                "${workspaceRoot}/lib/*.js",
+                "${workspaceRoot}/lib/**/*.js",
+                "${workspaceRoot}/examples/*.js",
+                "${workspaceRoot}/examples/**/*.js"
+            ],
+            "sourceMaps": true
+        },
+        {
+            "type": "node",
+            "request": "launch",
+            "name": "[LiteRT/Observable.js] Filters Example: Demo",
+            "program": "${workspaceRoot}/src/examples/Filters/01-demo.ts",
+            "cwd": "${workspaceFolder}",
+            "outFiles": [
+                "${workspaceRoot}/lib/*.js",
+                "${workspaceRoot}/lib/**/*.js",
+                "${workspaceRoot}/examples/*.js",
+                "${workspaceRoot}/examples/**/*.js"
+            ],
+            "sourceMaps": true
+        }
+    ]
+}
