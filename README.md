@@ -21,7 +21,7 @@ npm i @litert/observable --save
 
 ## Usage
 
-See [examples](./examples/).
+See [examples](./src/examples/).
 
 ## Document
 
