@@ -18,10 +18,15 @@ export interface ISubjectTemplate {
 
     subject: string | symbol;
 
-    callback(...args: any[]): Promise<void>;
+    callback(...args: any[]): Promise<void> | void;
 }
 
-export interface IMessenger {
+export type AsyncResult<IsAsync extends boolean, T, F> = IsAsync extends true ? Promise<T> : F;
+
+/**
+ * @param {boolean} IsAsync Tell if the messenger itself is async.
+ */
+export interface IMessenger<IsAsync extends boolean = false> {
 
     /**
      * Register a new subscriber for a subject.
@@ -34,7 +39,7 @@ export interface IMessenger {
         subject: T["subject"] | Array<T["subject"]>,
         key: string | symbol,
         callback: T["callback"]
-    ): this;
+    ): AsyncResult<IsAsync, void, this>;
 
     /**
      * Unregister an existing subscriber from a subject.
@@ -42,14 +47,14 @@ export interface IMessenger {
      * @param subject   The subject of message.
      * @param key       The key of subscriber.
      */
-    unsubscribe(subject: string | symbol, key: string | symbol): this;
+    unsubscribe(subject: string | symbol, key: string | symbol): AsyncResult<IsAsync, void, this>;
 
     /**
      * Unregister all subscribers of an existing subject.
      *
      * @param subject   The subject of message.
      */
-    unsubscribeAll(subject: string): this;
+    unsubscribeAll(subject: string): AsyncResult<IsAsync, void, this>;
 
     /**
      * Publish a message to determined subject.
@@ -76,12 +81,12 @@ export interface IMessenger {
     /**
      * Get the name list of registered subjects.
      */
-    getSubjectList(): Array<string | symbol>;
+    getSubjectList(): AsyncResult<IsAsync, string[], Array<string | symbol>>;
 
     /**
      * Get the key list of registered subscribers in determined subject.
      *
      * @param subject   The subject to be listed.
      */
-    getSubscriberList(subject: string | symbol): Array<string | symbol>;
+    getSubscriberList(subject: string | symbol): AsyncResult<IsAsync, string[], Array<string | symbol>>;
 }

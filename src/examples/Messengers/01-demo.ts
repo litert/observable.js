@@ -21,7 +21,7 @@ interface ISubjectHello extends Messengers.ISubjectTemplate {
 
     subject: "hello";
 
-    callback(name: string): Promise<void>;
+    callback(name: string): Promise<void> | void;
 }
 
 const subjectGo = Symbol("go");
@@ -30,12 +30,12 @@ interface ISubjectGo extends Messengers.ISubjectTemplate {
 
     subject: typeof subjectGo;
 
-    callback(name: string): Promise<void>;
+    callback(name: string): Promise<void> | void;
 }
 
 const lm = Messengers.createLocalMessenger();
 
-lm.subscribe<ISubjectHello>("hello", "Sarah", async (name) => {
+lm.subscribe<ISubjectHello>("hello", "Sarah", (name) => {
 
     console.info(`Sarah: Received hello from "${name}".`);
 

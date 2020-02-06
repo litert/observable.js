@@ -23,10 +23,10 @@ interface IColorFilter extends Filters.IFilterTemplate {
 
     name: "color";
 
-    callback(value: string): Promise<string>;
+    callback(value: string): Promise<string> | string;
 }
 
-filters.register<IColorFilter>("color", "no_dark_color", async (color: string) => {
+filters.register<IColorFilter>("color", "no_dark_color", (color: string) => {
 
     let c = color.toLowerCase();
 

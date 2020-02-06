@@ -86,7 +86,9 @@ implements C.IFilterManager {
 
         for (const key in callbacks) {
 
-            value = await callbacks[key](value, ...args);
+            const v = callbacks[key](value, ...args);
+
+            value = v instanceof Promise ? await v : v;
         }
 
         return value;

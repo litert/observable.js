@@ -1,6 +1,6 @@
 {
   "name": "@litert/observable",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "An implement of observation library for LiteRT.",
   "main": "lib/index.js",
   "scripts": {

@@ -27,9 +27,10 @@ export interface ILocalMessengerEvents extends Events.ICallbackDefinitions {
     subscriber_error(error: any, subject: string, key: string, ...args: any[]): void;
 }
 
-export interface ILocalMessenger extends C.IMessenger, Events.EventEmitter<ILocalMessengerEvents> {}
+export interface ILocalMessenger
+extends C.IMessenger<false>, Events.EventEmitter<ILocalMessengerEvents> {}
 
-type TMessageCallbackFn = (...args: any[]) => Promise<void>;
+type TMessageCallbackFn = (...args: any[]) => Promise<void> | void;
 
 class LocalMessenger
 extends Events.EventEmitter<ILocalMessengerEvents>
@@ -115,7 +116,12 @@ implements ILocalMessenger {
 
             try {
 
-                await callbacks[key](...args);
+                const t = callbacks[key](...args);
+
+                if (t instanceof Promise) {
+
+                    await t;
+                }
             }
             catch (e) {
 

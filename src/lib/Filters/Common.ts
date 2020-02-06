@@ -20,7 +20,7 @@ export interface IFilterTemplate {
 
     name: string | symbol;
 
-    callback(value: any, ...args: any[]): Promise<any>;
+    callback(value: any, ...args: any[]): Promise<any> | any;
 }
 
 export interface IFilterManager {
