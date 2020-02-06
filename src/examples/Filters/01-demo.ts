@@ -51,7 +51,15 @@ filters.register<IColorFilter>("color", "no_dark_color", (color: string) => {
     }
 
     return color;
-});
+}).register<IColorFilter>("color", "no_white_color", async (color: string) => {
+
+    if (color.toLowerCase().includes("white")) {
+
+        return "none";
+    }
+
+    return color;
+}, -100);
 
 (async () => {
 

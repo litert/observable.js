@@ -31,11 +31,13 @@ export interface IFilterManager {
      * @param name      The name of filter.
      * @param key       The key of filter function.
      * @param callback  The filter function.
+     * @param priority  The priority of filter function (the lower would be executed earlier). [Default: 0]
      */
     register<T extends IFilterTemplate = IFilterTemplate>(
         name: T["name"] | Array<T["name"]>,
         key: string | symbol,
-        callback: T["callback"]
+        callback: T["callback"],
+        priority?: number
     ): this;
 
     /**

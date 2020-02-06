@@ -19,16 +19,38 @@ import * as E from "./Errors";
 
 type TFilterFn = (value: any, ...args: any[]) => Promise<void>;
 
+interface IFilterInfo {
+
+    key: string | symbol;
+
+    fn: TFilterFn;
+
+    priority: number;
+}
+
+interface IPrivateData {
+
+    filters: Record<string, IFilterInfo[]>;
+}
+
+const SECRET_DATA = new WeakMap<C.IFilterManager, IPrivateData>();
+
 class FilterManager
 implements C.IFilterManager {
 
-    private _filters: Record<string, Record<string, TFilterFn>> = {};
+    public constructor() {
+
+        SECRET_DATA.set(this, { filters: {} });
+    }
 
     public register(
         name: string | string[],
         key: string,
-        callback: (...args: any[]) => Promise<void>
+        callback: (...args: any[]) => Promise<void>,
+        priority: number = 0
     ): this {
+
+        const filters = (SECRET_DATA.get(this) as IPrivateData).filters;
 
         if (!Array.isArray(name)) {
 
@@ -37,17 +59,23 @@ implements C.IFilterManager {
 
         for (const s of name) {
 
-            if (!this._filters[s]) {
+            if (!filters[s]) {
 
-                this._filters[s] = {};
+                filters[s] = [];
             }
 
-            if (this._filters[s][key]) {
+            if (filters[s].find((v) => v.key === key)) {
 
                 throw new E.E_DUP_FILTER_FUNCTION({ metadata: { name: s, key } });
             }
 
-            this._filters[s][key] = callback;
+            filters[s].push({
+                key,
+                fn: callback,
+                priority
+            });
+
+            filters[s] = filters[s].sort((a, b) => a.priority - b.priority);
         }
 
         return this;
@@ -58,35 +86,46 @@ implements C.IFilterManager {
         key: string
     ): this {
 
-        if (!this._filters[name]) {
+        const filters = (SECRET_DATA.get(this) as IPrivateData).filters;
+
+        if (!filters[name]) {
 
             return this;
         }
 
-        delete this._filters[name][key];
+        const index =  filters[name].findIndex((v) => v.key === key);
+
+        if (index !== -1) {
+
+            filters[name].splice(index, 1);
+        }
 
         return this;
     }
 
     public unregisterAll(name: string): this {
 
-        delete this._filters[name];
+        const filters = (SECRET_DATA.get(this) as IPrivateData).filters;
+
+        delete filters[name];
 
         return this;
     }
 
     public async filter(name: string, value: any, ...args: any[]): Promise<any> {
 
-        const callbacks = this._filters[name];
+        const filters = (SECRET_DATA.get(this) as IPrivateData).filters;
 
-        if (!callbacks) {
+        const items = filters[name];
+
+        if (!items) {
 
             return value;
         }
 
-        for (const key in callbacks) {
+        for (const filter of items) {
 
-            const v = callbacks[key](value, ...args);
+            const v = filter.fn(value, ...args);
 
             value = v instanceof Promise ? await v : v;
         }
@@ -96,18 +135,19 @@ implements C.IFilterManager {
 
     public getFilterList(): Array<string | symbol> {
 
+        const filters = (SECRET_DATA.get(this) as IPrivateData).filters;
+
         return [
-            ...Object.getOwnPropertySymbols(this._filters),
-            ...Object.getOwnPropertyNames(this._filters)
+            ...Object.getOwnPropertySymbols(filters),
+            ...Object.getOwnPropertyNames(filters)
         ];
     }
 
     public getFunctionList(name: string): Array<string | symbol> {
 
-        return [
-            ...Object.getOwnPropertySymbols(this._filters[name] || {}),
-            ...Object.getOwnPropertyNames(this._filters[name] || {})
-        ];
+        const filters = (SECRET_DATA.get(this) as IPrivateData).filters;
+
+        return filters[name].map((v) => v.key);
     }
 }
 
