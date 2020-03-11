@@ -14,27 +14,27 @@
  * limitations under the License.
  */
 
-import * as C from "./Common";
-import * as E from "./Errors";
-import * as Events from "../Events";
+import * as C from './Common';
+import * as E from './Errors';
+import * as Events from '../Events';
 
 export interface ILocalMessengerEvents extends Events.ICallbackDefinitions {
 
-    missing_subscriber(subject: string, ...args: any[]): void;
+    'missing_subscriber': (subject: string, ...args: any[]) => void;
 
-    new_subscriber(subject: string, key: string): void;
+    'new_subscriber': (subject: string, key: string) => void;
 
-    subscriber_error(error: any, subject: string, key: string, ...args: any[]): void;
+    'subscriber_error': (error: any, subject: string, key: string, ...args: any[]) => void;
 }
 
 export interface ILocalMessenger
-extends C.IMessenger<false>, Events.EventEmitter<ILocalMessengerEvents> {}
+    extends C.IMessenger, Events.EventEmitter<ILocalMessengerEvents> {}
 
 type TMessageCallbackFn = (...args: any[]) => Promise<void> | void;
 
 class LocalMessenger
-extends Events.EventEmitter<ILocalMessengerEvents>
-implements ILocalMessenger {
+    extends Events.EventEmitter<ILocalMessengerEvents>
+    implements ILocalMessenger {
 
     private _subjects: Record<string, Record<string, TMessageCallbackFn>> = {};
 
@@ -68,7 +68,7 @@ implements ILocalMessenger {
 
             this._subjects[s][key] = callback;
 
-            this.emit("new_subscriber", s, key);
+            this.emit('new_subscriber', s, key);
         }
 
         return this;
@@ -98,7 +98,7 @@ implements ILocalMessenger {
 
     public publish(subject: string, ...args: any[]): void {
 
-        this.publishBlocking(subject, ...args).catch(() => 0);
+        this.publishBlocking(subject, ...args).catch(() => null);
     }
 
     public async publishBlocking(subject: string, ...args: any[]): Promise<void> {
@@ -107,7 +107,7 @@ implements ILocalMessenger {
 
         if (!callbacks) {
 
-            this.emit("missing_subscriber", subject, ...args);
+            this.emit('missing_subscriber', subject, ...args);
 
             return;
         }
@@ -125,7 +125,7 @@ implements ILocalMessenger {
             }
             catch (e) {
 
-                this.emit("subscriber_error", e, subject, key, ...args);
+                this.emit('subscriber_error', e, subject, key, ...args);
 
                 continue;
             }

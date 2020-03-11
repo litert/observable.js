@@ -14,9 +14,7 @@
  * limitations under the License.
  */
 
-// tslint:disable:no-console
-
-import { Events } from "../../lib";
+import { Events } from '../../lib';
 
 interface IEventDefinitions extends Events.ICallbackDefinitions {
 
@@ -28,24 +26,24 @@ interface IEventDefinitions extends Events.ICallbackDefinitions {
 const eh: Events.IEmitter<IEventDefinitions> = new Events.EventEmitter<IEventDefinitions>();
 
 eh
-.on("timer", function(t): void {
+    .on('timer', function(t): void {
 
-    console.log(new Date(t));
-})
-.on("walk", function(t, g): void {
+        console.log(new Date(t));
+    })
+    .on('walk', function(t, g): void {
 
-    console.log(new Date(t), g);
-})
-.on("gg", function(a): false {
-    return false;
-})
-.once("timer", function(): void {
+        console.log(new Date(t), g);
+    })
+    .on('gg', function(): false {
+        return false;
+    })
+    .once('timer', function(): void {
 
-    console.log("This should be called once only.");
-});
+        console.log('This should be called once only.');
+    });
 
-setInterval(() => eh.emit("timer", Date.now()), 1000);
+setInterval(() => eh.emit('timer', Date.now()), 1000);
 
-eh.emit("walk", "2019-11-11", 123);
+eh.emit('walk', '2019-11-11', 123);
 
-eh.emit("gg", "2019-11-11", 123);
+eh.emit('gg', '2019-11-11', 123);

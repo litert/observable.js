@@ -36,9 +36,9 @@ export interface IMessenger<IsAsync extends boolean = false> {
      * @param callback  The callback of subscriber.
      */
     subscribe<T extends ISubjectTemplate = ISubjectTemplate>(
-        subject: T["subject"] | Array<T["subject"]>,
+        subject: T['subject'] | Array<T['subject']>,
         key: string | symbol,
-        callback: T["callback"]
+        callback: T['callback']
     ): AsyncResult<IsAsync, void, this>;
 
     /**
@@ -63,8 +63,8 @@ export interface IMessenger<IsAsync extends boolean = false> {
      * @param args      The arguments of message.
      */
     publish<T extends ISubjectTemplate = ISubjectTemplate>(
-        subject: T["subject"],
-        ...args: Parameters<T["callback"]>
+        subject: T['subject'],
+        ...args: Parameters<T['callback']>
     ): void;
 
     /**
@@ -74,8 +74,8 @@ export interface IMessenger<IsAsync extends boolean = false> {
      * @param args      The arguments of message.
      */
     publishBlocking<T extends ISubjectTemplate = ISubjectTemplate>(
-        subject: T["subject"],
-        ...args: Parameters<T["callback"]>
+        subject: T['subject'],
+        ...args: Parameters<T['callback']>
     ): Promise<void>;
 
     /**

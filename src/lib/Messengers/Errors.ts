@@ -14,11 +14,11 @@
  * limitations under the License.
  */
 
-import { ErrorHub } from "../Errors";
+import { ErrorHub } from '../Errors';
 
 export const E_DUP_SUBSCRIBER = ErrorHub.define(
     null,
-    "E_DUP_SUBSCRIBER",
-    "The subscriber of determined key already exists.",
+    'E_DUP_SUBSCRIBER',
+    'The subscriber of determined key already exists.',
     {}
 );

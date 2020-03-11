@@ -2,7 +2,7 @@
 /.vscode/
 /examples/
 /tsconfig.json
-/tslint.json
+/.eslintrc
 /.npmignore
 /.gitignore
 /.npmrc

@@ -14,11 +14,11 @@
  * limitations under the License.
  */
 
-import { ErrorHub } from "../Errors";
+import { ErrorHub } from '../Errors';
 
 export const E_EXCEED_MAX_LISTENERS = ErrorHub.define(
     null,
-    "E_EXCEED_MAX_LISTENERS",
-    "Exceeded the maximum quantity of listeners.",
+    'E_EXCEED_MAX_LISTENERS',
+    'Exceeded the maximum quantity of listeners.',
     {}
 );

@@ -34,9 +34,9 @@ export interface IFilterManager {
      * @param priority  The priority of filter function (the lower would be executed earlier). [Default: 0]
      */
     register<T extends IFilterTemplate = IFilterTemplate>(
-        name: T["name"] | Array<T["name"]>,
+        name: T['name'] | Array<T['name']>,
         key: string | symbol,
-        callback: T["callback"],
+        callback: T['callback'],
         priority?: number
     ): this;
 
@@ -63,9 +63,9 @@ export interface IFilterManager {
      * @param args      The extra arguments of filter.
      */
     filter<T extends IFilterTemplate = IFilterTemplate>(
-        name: T["name"],
-        ...args: Parameters<T["callback"]>
-    ): Promise<PromiseType<ReturnType<T["callback"]>>>;
+        name: T['name'],
+        ...args: Parameters<T['callback']>
+    ): Promise<PromiseType<ReturnType<T['callback']>>>;
 
     /**
      * Get the name list of registered filters.

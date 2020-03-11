@@ -14,12 +14,12 @@
  * limitations under the License.
  */
 
-export * from "./Common";
-export * from "./Errors";
-export * from "./LocalMessenger";
+export * from './Common';
+export * from './Errors';
+export * from './LocalMessenger';
 
-import { createLocalMessenger } from "./LocalMessenger";
-import { IMessenger } from "./Common";
+import { createLocalMessenger } from './LocalMessenger';
+import { IMessenger } from './Common';
 
 const GLOBAL_MESSENGER = createLocalMessenger();
 

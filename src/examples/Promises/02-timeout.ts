@@ -14,12 +14,12 @@
  * limitations under the License.
  */
 
-// tslint:disable: no-console
-import { Promises, Messengers } from "../../lib";
+/* eslint-disable @typescript-eslint/unbound-method */
+import { Promises, Messengers } from '../../lib';
 
 Messengers.getGlobalMessenger().subscribe<Promises.ISubjectTimeoutResult>(
-    "promise:timeout_result",
-    "promises.demos.timeout",
+    'promise:timeout_result',
+    'promises.demos.timeout',
     async (success, result, target, issuer) => {
 
         if (success) {
@@ -37,19 +37,19 @@ function test1(timeout: number): Promise<number> {
 
     const prFactory = Promises.getGlobalFactory();
 
-    let pr = prFactory.findPromise<number>("test1");
+    let pr = prFactory.findPromise<number>('test1');
 
     if (pr) {
 
-        console.warn("Aggregated");
+        console.warn('Aggregated');
         return pr.promise;
     }
 
     pr = prFactory.createTimeoutPromise<number>({
-        id: "test1",
+        id: 'test1',
         timeout,
-        issuer: "test1",
-        target: "unknown"
+        issuer: 'test1',
+        target: 'unknown'
     });
 
     setTimeout(pr.resolve, 1000, 123);
@@ -68,10 +68,10 @@ function test1(timeout: number): Promise<number> {
 
             if (e instanceof Promises.E_TIMEOUT) {
 
-                console.error("Timeout!");
+                console.error('Timeout!');
             }
         }
-    })();
+    })().catch((e) => console.error(e));
 
     (async () => {
 
@@ -83,10 +83,10 @@ function test1(timeout: number): Promise<number> {
 
             if (e instanceof Promises.E_TIMEOUT) {
 
-                console.error("Timeout!");
+                console.error('Timeout!');
             }
         }
-    })();
+    })().catch((e) => console.error(e));
 
     try {
 
@@ -96,11 +96,11 @@ function test1(timeout: number): Promise<number> {
 
         if (e instanceof Promises.E_TIMEOUT) {
 
-            console.error("Timeout!");
+            console.error('Timeout!');
         }
     }
 
     console.log(await test1(2000));
 
     console.log(await test1(2000));
-})();
+})().catch((e) => console.error(e));

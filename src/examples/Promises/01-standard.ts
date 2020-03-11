@@ -14,23 +14,23 @@
  * limitations under the License.
  */
 
-// tslint:disable: no-console
-import { Promises } from "../../lib";
+/* eslint-disable @typescript-eslint/unbound-method */
+import { Promises } from '../../lib';
 
 function test1(): Promise<number> {
 
     const prFactory = Promises.getGlobalFactory();
 
-    let pr = prFactory.findPromise<number>("test1");
+    let pr = prFactory.findPromise<number>('test1');
 
     if (pr) {
 
-        console.warn("Aggregated");
+        console.warn('Aggregated');
         return pr.promise;
     }
 
     pr = prFactory.createPromise<number>({
-        id: "test1"
+        id: 'test1'
     });
 
     setTimeout(pr.resolve, 1000, 123);
@@ -43,16 +43,16 @@ function test1(): Promise<number> {
     (async () => {
 
         console.log(await test1());
-    })();
+    })().catch((e) => console.error(e));
 
     (async () => {
 
         console.log(await test1());
-    })();
+    })().catch((e) => console.error(e));
 
     (async () => {
 
         console.log(await test1());
-    })();
+    })().catch((e) => console.error(e));
 
-})();
+})().catch((e) => console.error(e));

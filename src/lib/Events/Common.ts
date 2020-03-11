@@ -162,7 +162,7 @@ export interface IObservable<T extends ICallbackDefinitions> {
 }
 
 export interface IEmitter<T extends ICallbackDefinitions>
-extends IObservable<T> {
+    extends IObservable<T> {
 
     /**
      * Emit an event, so that the listeners will be called in the order they are

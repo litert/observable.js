@@ -14,18 +14,18 @@
  * limitations under the License.
  */
 
-import { ErrorHub } from "../Errors";
+import { ErrorHub } from '../Errors';
 
 export const E_DUP_PROMISE = ErrorHub.define(
     null,
-    "E_DUP_PROMISE",
-    "The promise of determined identity already exists.",
+    'E_DUP_PROMISE',
+    'The promise of determined identity already exists.',
     {}
 );
 
 export const E_TIMEOUT = ErrorHub.define(
     null,
-    "E_TIMEOUT",
-    "The asynchrounous request timeout.",
+    'E_TIMEOUT',
+    'The asynchrounous request timeout.',
     {}
 );

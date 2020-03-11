@@ -14,17 +14,16 @@
  * limitations under the License.
  */
 
-// tslint:disable: no-console
-import { Messengers } from "../../lib";
+import { Messengers } from '../../lib';
 
 interface ISubjectHello extends Messengers.ISubjectTemplate {
 
-    subject: "hello";
+    subject: 'hello';
 
     callback(name: string): Promise<void> | void;
 }
 
-const subjectGo = Symbol("go");
+const subjectGo = Symbol('go');
 
 interface ISubjectGo extends Messengers.ISubjectTemplate {
 
@@ -35,28 +34,28 @@ interface ISubjectGo extends Messengers.ISubjectTemplate {
 
 const lm = Messengers.createLocalMessenger();
 
-lm.subscribe<ISubjectHello>("hello", "Sarah", (name) => {
+lm.subscribe<ISubjectHello>('hello', 'Sarah', (name) => {
 
     console.info(`Sarah: Received hello from "${name}".`);
 
-}).subscribe<ISubjectHello>("hello", "John", async (name) => {
+}).subscribe<ISubjectHello>('hello', 'John', async (name) => {
 
     console.info(`John: Received hello from "${name}".`);
 
-}).subscribe<ISubjectGo>(subjectGo, "John", async (name) => {
+}).subscribe<ISubjectGo>(subjectGo, 'John', async (name) => {
 
     console.info(`${name} went away.`);
 });
 
-lm.on("missing_subscriber", function(subject, ...args) {
+lm.on('missing_subscriber', function(subject, ...args) {
 
-    console.warn(`Received a message that no one subscribed:`);
+    console.warn('Received a message that no one subscribed:');
     console.warn(`Subject: ${subject}`);
-    console.warn(`Arguments: ${args.join(",")}`);
+    console.warn(`Arguments: ${args.join(',')}`);
 });
 
-lm.publish<ISubjectHello>("hello", "Angus");
+lm.publish<ISubjectHello>('hello', 'Angus');
 
-lm.publish("hi", "Angus");
+lm.publish('hi', 'Angus');
 
-lm.publish<ISubjectGo>(subjectGo, "Edith");
+lm.publish<ISubjectGo>(subjectGo, 'Edith');

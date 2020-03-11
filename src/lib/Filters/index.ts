@@ -14,12 +14,12 @@
  * limitations under the License.
  */
 
-export * from "./Common";
-export * from "./Errors";
-export * from "./FilterManager";
+export * from './Common';
+export * from './Errors';
+export * from './FilterManager';
 
-import { createFilterManager } from "./FilterManager";
-import { IFilterManager } from "./Common";
+import { createFilterManager } from './FilterManager';
+import { IFilterManager } from './Common';
 
 const GLOBAL_FILTER_MANAGER = createFilterManager();
 

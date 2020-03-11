@@ -14,9 +14,10 @@
  * limitations under the License.
  */
 
-import * as C from "./Common";
-import { IMessenger } from "../Messengers";
-import * as E from "./Errors";
+/* eslint-disable @typescript-eslint/unbound-method */
+import * as C from './Common';
+import { IMessenger } from '../Messengers';
+import * as E from './Errors';
 
 export type Writable<T> = { -readonly [P in keyof T]: T[P]; };
 
@@ -36,7 +37,7 @@ class TimeoutPromise implements C.IPromiseHandle {
         timeout: number,
         private _slots: Record<string, C.IPromiseHandle>,
         public id: C.TPromiseIdentity = C.ANONYMOUS_PROMISE,
-        private _msger: IMessenger,
+        private _msger?: IMessenger,
         private _target?: string,
         private _issuer?: string
     ) {
@@ -75,8 +76,8 @@ class TimeoutPromise implements C.IPromiseHandle {
 
         if (!this._timer) {
 
-            this._msger.publish<C.ISubjectTimeoutResult>(
-                "promise:timeout_result",
+            this._msger?.publish<C.ISubjectTimeoutResult>(
+                'promise:timeout_result',
                 false,
                 e,
                 this._target,
@@ -101,8 +102,8 @@ class TimeoutPromise implements C.IPromiseHandle {
 
         if (!this._timer) {
 
-            this._msger.publish<C.ISubjectTimeoutResult>(
-                "promise:timeout_result",
+            this._msger?.publish<C.ISubjectTimeoutResult>(
+                'promise:timeout_result',
                 true,
                 e,
                 this._target,
@@ -139,7 +140,7 @@ class PromiseFactory implements C.IPromiseFactory {
 
     public createPromise(opts?: C.IPromiseOptions): C.IPromiseHandle {
 
-        const ret: C.IPromiseHandle = { id: opts?.id || C.ANONYMOUS_PROMISE } as any;
+        const ret: C.IPromiseHandle = { id: opts?.id ?? C.ANONYMOUS_PROMISE } as any;
 
         if (opts?.id) {
 

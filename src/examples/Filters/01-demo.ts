@@ -14,48 +14,47 @@
  * limitations under the License.
  */
 
-// tslint:disable: no-console
-import { Filters } from "../../lib";
+import { Filters } from '../../lib';
 
 const filters = Filters.getGlobalFilterManager();
 
 interface IColorFilter extends Filters.IFilterTemplate {
 
-    name: "color";
+    name: 'color';
 
     callback(value: string): Promise<string> | string;
 }
 
-filters.register<IColorFilter>("color", "no_dark_color", (color: string) => {
+filters.register<IColorFilter>('color', 'no_dark_color', (color: string) => {
 
     let c = color.toLowerCase();
 
-    if (c.toLowerCase().startsWith("dark")) {
+    if (c.toLowerCase().startsWith('dark')) {
 
         c = c.slice(4);
     }
 
     switch (c) {
-    case "grey":
-    case "black":
-        return "white";
+        case 'grey':
+        case 'black':
+            return 'white';
     }
 
     return c;
 
-}).register<IColorFilter>("color", "no_yellow_color", async (color: string) => {
+}).register<IColorFilter>('color', 'no_yellow_color', async (color: string) => {
 
-    if (color.toLowerCase().includes("yellow")) {
+    if (color.toLowerCase().includes('yellow')) {
 
-        return "white";
+        return 'white';
     }
 
     return color;
-}).register<IColorFilter>("color", "no_white_color", async (color: string) => {
+}).register<IColorFilter>('color', 'no_white_color', async (color: string) => {
 
-    if (color.toLowerCase().includes("white")) {
+    if (color.toLowerCase().includes('white')) {
 
-        return "none";
+        return 'none';
     }
 
     return color;
@@ -64,10 +63,10 @@ filters.register<IColorFilter>("color", "no_dark_color", (color: string) => {
 (async () => {
 
     for (const c of [
-        "red", "blue", "black", "grey",
-        "white", "darkgreen", "yellow", "darkyellow"
+        'red', 'blue', 'black', 'grey',
+        'white', 'darkgreen', 'yellow', 'darkyellow'
     ]) {
 
-        console.log(c, "->", await filters.filter<IColorFilter>("color", c));
+        console.log(c, '->', await filters.filter<IColorFilter>('color', c));
     }
-})();
+})().catch((e) => console.error(e));

@@ -14,13 +14,13 @@
  * limitations under the License.
  */
 
-export * from "./Common";
-export * from "./Errors";
-export * from "./Factory";
+export * from './Common';
+export * from './Errors';
+export * from './Factory';
 
-import { createPromiseFactory } from "./Factory";
-import { getGlobalMessenger } from "../Messengers";
-import { IPromiseFactory } from "./Common";
+import { createPromiseFactory } from './Factory';
+import { getGlobalMessenger } from '../Messengers';
+import { IPromiseFactory } from './Common';
 
 const GLOBAL_FACTORY = createPromiseFactory(getGlobalMessenger());
 

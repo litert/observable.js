@@ -14,6 +14,6 @@
  * limitations under the License.
  */
 
-import * as L from "@litert/core";
+import * as L from '@litert/core';
 
-export const ErrorHub = L.createErrorHub("@litert/observable");
+export const ErrorHub = L.createErrorHub('@litert/observable');

@@ -14,8 +14,8 @@
  * limitations under the License.
  */
 
-import * as C from "./Common";
-import * as E from "./Errors";
+import * as C from './Common';
+import * as E from './Errors';
 
 type TFilterFn = (value: any, ...args: any[]) => Promise<void>;
 

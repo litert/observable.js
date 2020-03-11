@@ -16,11 +16,11 @@
 
 export type TPromiseIdentity = string | symbol;
 
-export const ANONYMOUS_PROMISE = Symbol("anonymous_promise");
+export const ANONYMOUS_PROMISE = Symbol('anonymous_promise');
 
 export interface ISubjectTimeoutResult {
 
-    subject: "promise:timeout_result";
+    subject: 'promise:timeout_result';
 
     callback(
         success: boolean,
@@ -50,7 +50,7 @@ export interface IPromiseOptions {
     /**
      * The unique identity of the promise.
      */
-    "id"?: TPromiseIdentity;
+    'id'?: TPromiseIdentity;
 }
 
 export interface ITimeoutPromiseOptions extends IPromiseOptions {
@@ -58,7 +58,7 @@ export interface ITimeoutPromiseOptions extends IPromiseOptions {
     /**
      * How long will the result return because of timeout, in milliseconds.
      */
-    "timeout": number;
+    'timeout': number;
 
     /**
      * The producer of the promise.
@@ -66,7 +66,7 @@ export interface ITimeoutPromiseOptions extends IPromiseOptions {
      * If timeout, a message will be broadcasted with this issuer when the
      * result comes out.
      */
-    "issuer"?: string;
+    'issuer'?: string;
 
     /**
      * The target of this promise.
@@ -74,7 +74,7 @@ export interface ITimeoutPromiseOptions extends IPromiseOptions {
      * If timeout, a message will be broadcasted with this target when the
      * result comes out.
      */
-    "target"?: string;
+    'target'?: string;
 }
 
 export interface IPromiseFactory {

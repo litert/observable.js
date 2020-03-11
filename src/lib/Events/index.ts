@@ -14,6 +14,6 @@
  * limitations under the License.
  */
 
-export * from "./Common";
-export * from "./Errors";
-export * from "./EventEmitter";
+export * from './Common';
+export * from './Errors';
+export * from './EventEmitter';
