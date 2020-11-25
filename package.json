@@ -1,15 +1,16 @@
 {
   "name": "@litert/observable",
-  "version": "0.2.1",
+  "version": "0.3.0",
   "description": "An implement of observation library for LiteRT.",
   "main": "lib/index.js",
   "scripts": {
-    "prepare": "npm run rebuild",
+    "prepublishOnly": "npm run rebuild",
     "build": "echo Using TypeScript && tsc -v && tsc -p .",
     "build-watch": "echo Using TypeScript && tsc -v && tsc -w -p .",
     "rebuild": "npm run clean && npm run lint && npm run build",
     "test": "echo See directory src/examples",
     "clean": "rm -rf lib examples",
+    "typecheck": "tsc -p . --noEmit",
     "lint": "eslint --ext ts src"
   },
   "author": "Angus.Fenying <fenying@litert.org> (https://fenying.net)",
@@ -17,6 +18,12 @@
   "repository": {
     "type": "git",
     "url": "git+https://github.com/litert/observable.js.git"
+  },
+  "husky": {
+    "hooks": {
+      "commit-msg": "commitlint -E HUSKY_GIT_PARAMS",
+      "pre-commit": "npm run lint && npm run typecheck"
+    }
   },
   "keywords": [
     "events",
@@ -30,15 +37,19 @@
   "types": "./lib/index.d.ts",
   "typings": "./lib/index.d.ts",
   "devDependencies": {
-    "@typescript-eslint/eslint-plugin": "^2.21.0",
-    "@typescript-eslint/parser": "^2.21.0",
-    "eslint": "^6.8.0",
-    "typescript": "^3.4.3"
+    "@commitlint/cli": "^11.0.0",
+    "@commitlint/config-conventional": "^11.0.0",
+    "@types/node": "^14.11.1",
+    "@typescript-eslint/eslint-plugin": "^4.8.1",
+    "@typescript-eslint/parser": "^4.8.1",
+    "eslint": "^7.14.0",
+    "husky": "^4.3.0",
+    "typescript": "^4.1.2"
   },
   "engines": {
     "node": ">=8.6.0"
   },
   "dependencies": {
-    "@litert/core": "^1.1.0"
+    "@litert/exception": "^1.0.0"
   }
 }

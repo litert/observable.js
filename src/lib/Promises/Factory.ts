@@ -23,7 +23,7 @@ export type Writable<T> = { -readonly [P in keyof T]: T[P]; };
 
 class TimeoutPromise implements C.IPromiseHandle {
 
-    private _timer: number;
+    private _timer?: NodeJS.Timeout;
 
     public readonly expiringAt: number;
 

@@ -17,11 +17,11 @@
 import * as C from './Common';
 import * as Errors from './Errors';
 
-const _privPropEventSlots = Symbol('events:slots');
+const PRIV_PROP_EVENT_SLOTS = Symbol('events:slots');
 
-const _privPropConfig = Symbol('events:config');
+const PRIV_PROP_CONFIG = Symbol('events:config');
 
-class ListenerInfo<T extends Function> {
+class ListenerInfo<T extends (...args: any[]) => any> {
 
     public once: boolean;
 
@@ -43,7 +43,7 @@ const DEFAULT_CONFIGURATION: C.IConfiguration = {
     maxListeners: 10
 };
 
-class EventInfo<T extends Function> {
+class EventInfo<T extends (...args: any[]) => any> {
 
     /**
      * The configuration of this event.
@@ -64,41 +64,41 @@ class EventInfo<T extends Function> {
 
 type EventSlot<T extends C.ICallbackDefinitions> = {
 
-    [E in keyof T]: EventInfo<C.TRebuildFn<T[E]>>;
+    [E in keyof T]: EventInfo<T[E]>;
 };
 
 export class EventEmitter<T extends C.ICallbackDefinitions>
 implements C.IEmitter<T> {
 
-    private [_privPropConfig]: C.IConfiguration;
+    private [PRIV_PROP_CONFIG]: C.IConfiguration;
 
-    private [_privPropEventSlots]: EventSlot<T>;
+    private [PRIV_PROP_EVENT_SLOTS]: EventSlot<T>;
 
     public constructor(config?: Partial<C.IConfiguration>) {
 
-        this[_privPropEventSlots] = {} as any;
-        this[_privPropConfig] = { ...DEFAULT_CONFIGURATION, ...config };
+        this[PRIV_PROP_EVENT_SLOTS] = {} as any;
+        this[PRIV_PROP_CONFIG] = { ...DEFAULT_CONFIGURATION, ...config };
     }
 
-    public addListener<E extends keyof T>(
-        event: E,
-        callback: C.TRebuildFn<T[E]>
+    public addListener<TEvent extends keyof T>(
+        event: TEvent,
+        callback: T[TEvent]
     ): this {
 
-        return this.on<E>(event, callback);
+        return this.on<TEvent>(event, callback);
     }
 
-    public on<E extends keyof T>(
-        event: E,
-        callback: C.TRebuildFn<T[E]>
+    public on<TEvent extends keyof T>(
+        event: TEvent,
+        callback: T[TEvent]
     ): this {
 
-        let ev = this[_privPropEventSlots][event];
+        let ev = this[PRIV_PROP_EVENT_SLOTS][event];
 
         if (!ev) {
 
-            ev = this[_privPropEventSlots][event] = new EventInfo(
-                this[_privPropConfig]
+            ev = this[PRIV_PROP_EVENT_SLOTS][event] = new EventInfo(
+                this[PRIV_PROP_CONFIG]
             );
         }
 
@@ -112,25 +112,25 @@ implements C.IEmitter<T> {
         return this;
     }
 
-    public addOnceListener<E extends keyof T>(
-        event: E,
-        callback: C.TRebuildFn<T[E]>
+    public addOnceListener<TEvent extends keyof T>(
+        event: TEvent,
+        callback: T[TEvent]
     ): this {
 
-        return this.once<E>(event, callback);
+        return this.once<TEvent>(event, callback);
     }
 
-    public once<E extends keyof T>(
-        event: E,
-        callback: C.TRebuildFn<T[E]>
+    public once<TEvent extends keyof T>(
+        event: TEvent,
+        callback: T[TEvent]
     ): this {
 
-        let ev = this[_privPropEventSlots][event];
+        let ev = this[PRIV_PROP_EVENT_SLOTS][event];
 
         if (!ev) {
 
-            ev = this[_privPropEventSlots][event] = new EventInfo(
-                this[_privPropConfig]
+            ev = this[PRIV_PROP_EVENT_SLOTS][event] = new EventInfo(
+                this[PRIV_PROP_CONFIG]
             );
         }
 
@@ -146,15 +146,15 @@ implements C.IEmitter<T> {
 
     public eventNames(): Array<keyof T> {
 
-        return Object.keys(this[_privPropEventSlots]);
+        return Object.keys(this[PRIV_PROP_EVENT_SLOTS]);
     }
 
-    public hasListener<E extends keyof T>(
-        event: E,
-        callback: C.TRebuildFn<T[E]>
+    public hasListener<TEvent extends keyof T>(
+        event: TEvent,
+        callback: T[TEvent]
     ): boolean {
 
-        const ev = this[_privPropEventSlots][event];
+        const ev = this[PRIV_PROP_EVENT_SLOTS][event];
 
         if (!ev) {
 
@@ -164,26 +164,26 @@ implements C.IEmitter<T> {
         return ev.listeners.filter((x) => x.callback === callback).length > 0;
     }
 
-    public listeners<E extends keyof T>(event: E): Array<C.TRebuildFn<T[E]>> {
+    public listeners<TEvent extends keyof T>(event: TEvent): Array<T[TEvent]> {
 
-        const ev = this[_privPropEventSlots][event];
+        const ev = this[PRIV_PROP_EVENT_SLOTS][event];
 
         return ev ? ev.listeners.map((x) => x.callback) : [];
     }
 
-    public listenerCount<E extends keyof T>(event: E): number {
+    public listenerCount<TEvent extends keyof T>(event: TEvent): number {
 
-        const ev = this[_privPropEventSlots][event];
+        const ev = this[PRIV_PROP_EVENT_SLOTS][event];
 
         return ev ? ev.listeners.length : 0;
     }
 
-    public off<E extends keyof T>(
-        event: E,
-        callback?: C.TRebuildFn<T[E]>
+    public off<TEvent extends keyof T>(
+        event: TEvent,
+        callback?: T[TEvent]
     ): number {
 
-        const ev = this[_privPropEventSlots][event];
+        const ev = this[PRIV_PROP_EVENT_SLOTS][event];
 
         if (!ev) {
 
@@ -204,12 +204,12 @@ implements C.IEmitter<T> {
         return ev.listeners.splice(0).length;
     }
 
-    public removeListener<E extends keyof T>(
-        event: E,
-        callback?: C.TRebuildFn<T[E]>
+    public removeListener<TEvent extends keyof T>(
+        event: TEvent,
+        callback?: T[TEvent]
     ): number {
 
-        return this.off<E>(event, callback);
+        return this.off<TEvent>(event, callback);
     }
 
     public configEvent(
@@ -218,7 +218,7 @@ implements C.IEmitter<T> {
 
         if (args.length === 2) {
 
-            const ev = this[_privPropEventSlots][args[0]];
+            const ev = this[PRIV_PROP_EVENT_SLOTS][args[0]];
 
             if (ev) {
 
@@ -226,25 +226,25 @@ implements C.IEmitter<T> {
             }
             else {
 
-                this[_privPropEventSlots][args[0]] = new EventInfo(
-                    { ...this[_privPropConfig], ...args[1] }
+                this[PRIV_PROP_EVENT_SLOTS][args[0]] = new EventInfo(
+                    { ...this[PRIV_PROP_CONFIG], ...args[1] }
                 );
             }
         }
         else {
 
-            this[_privPropConfig] = { ...this[_privPropConfig], ...args[0] };
+            this[PRIV_PROP_CONFIG] = { ...this[PRIV_PROP_CONFIG], ...args[0] };
         }
 
         return this;
     }
 
-    public emit<E extends keyof T>(
-        event: E,
-        ...args: Parameters<T[E]>
+    public emit<TEvent extends keyof T>(
+        event: TEvent,
+        ...args: Parameters<T[TEvent]>
     ): boolean {
 
-        const ev = this[_privPropEventSlots][event];
+        const ev = this[PRIV_PROP_EVENT_SLOTS][event];
 
         if (!ev || !ev.listeners.length) {
 

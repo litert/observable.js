@@ -20,21 +20,20 @@ import * as Events from '../Events';
 
 export interface ILocalMessengerEvents extends Events.ICallbackDefinitions {
 
+    /* eslint-disable @typescript-eslint/naming-convention */
     'missing_subscriber': (subject: string, ...args: any[]) => void;
 
     'new_subscriber': (subject: string, key: string) => void;
 
     'subscriber_error': (error: any, subject: string, key: string, ...args: any[]) => void;
+    /* eslint-enable @typescript-eslint/naming-convention */
 }
 
-export interface ILocalMessenger
-    extends C.IMessenger, Events.EventEmitter<ILocalMessengerEvents> {}
+export interface ILocalMessenger extends C.IMessenger, Events.EventEmitter<ILocalMessengerEvents> {}
 
 type TMessageCallbackFn = (...args: any[]) => Promise<void> | void;
 
-class LocalMessenger
-    extends Events.EventEmitter<ILocalMessengerEvents>
-    implements ILocalMessenger {
+class LocalMessenger extends Events.EventEmitter<ILocalMessengerEvents> implements ILocalMessenger {
 
     private _subjects: Record<string, Record<string, TMessageCallbackFn>> = {};
 

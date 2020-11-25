@@ -14,11 +14,11 @@
  * limitations under the License.
  */
 
-import { ErrorHub } from '../Errors';
+import { errorRegistry } from '../Errors';
 
-export const E_DUP_SUBSCRIBER = ErrorHub.define(
-    null,
-    'E_DUP_SUBSCRIBER',
-    'The subscriber of determined key already exists.',
-    {}
-);
+export const E_DUP_SUBSCRIBER = errorRegistry.register({
+    'name': 'dup_subscriber',
+    'message': 'The subscriber of determined key already exists.',
+    'metadata': {},
+    'type': 'public'
+});

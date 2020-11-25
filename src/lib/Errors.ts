@@ -14,6 +14,13 @@
  * limitations under the License.
  */
 
-import * as L from '@litert/core';
+import * as $Exceptions from '@litert/exception';
 
-export const ErrorHub = L.createErrorHub('@litert/observable');
+export const errorRegistry = $Exceptions.createExceptionRegistry({
+    'module': 'observable.litert.org',
+    'types': {
+        'public': {
+            index: $Exceptions.createIncreaseCodeIndex(0)
+        }
+    }
+});

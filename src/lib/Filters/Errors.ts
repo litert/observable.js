@@ -14,11 +14,11 @@
  * limitations under the License.
  */
 
-import { ErrorHub } from '../Errors';
+import { errorRegistry } from '../Errors';
 
-export const E_DUP_FILTER_FUNCTION = ErrorHub.define(
-    null,
-    'E_DUP_FILTER_FUNCTION',
-    'The filter function of determined key already exists.',
-    {}
-);
+export const E_DUP_FILTER_FUNCTION = errorRegistry.register({
+    'name': 'dup_filter_function',
+    'message': 'The filter function of determined key already exists.',
+    'metadata': {},
+    'type': 'public'
+});

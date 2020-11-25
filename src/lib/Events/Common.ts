@@ -48,13 +48,6 @@ export interface IConfiguration {
     maxListeners: number;
 }
 
-/**
- * This is a patch to TypeScript's bug.
- *
- * @see https://github.com/Microsoft/TypeScript/issues/30889
- */
-export type TRebuildFn<T extends ICallback> = (...v: Parameters<T>) => ReturnType<T>;
-
 export interface IObservable<T extends ICallbackDefinitions> {
 
     /**
@@ -63,9 +56,9 @@ export interface IObservable<T extends ICallbackDefinitions> {
      * @param event     The name of event to be listened.
      * @param callback  The callback of event listener.
      */
-    addListener<E extends keyof T>(
-        event: E,
-        callback: TRebuildFn<T[E]>
+    addListener<TEvent extends keyof T>(
+        event: TEvent,
+        callback: T[TEvent]
     ): this;
 
     /**
@@ -75,9 +68,9 @@ export interface IObservable<T extends ICallbackDefinitions> {
      * @param event     The name of event to be listened.
      * @param callback  The callback of event listener.
      */
-    addOnceListener<E extends keyof T>(
-        event: E,
-        callback: TRebuildFn<T[E]>
+    addOnceListener<TEvent extends keyof T>(
+        event: TEvent,
+        callback: T[TEvent]
     ): this;
 
     /**
@@ -91,14 +84,14 @@ export interface IObservable<T extends ICallbackDefinitions> {
      *
      * @param event     The name of event.
      */
-    listeners<E extends keyof T>(event: E): Array<TRebuildFn<T[E]>>;
+    listeners<TEvent extends keyof T>(event: TEvent): Array<T[TEvent]>;
 
     /**
      * Get the quantity of listeners for an event.
      *
      * @param event     The name of event.
      */
-    listenerCount<E extends keyof T>(event: E): number;
+    listenerCount<TEvent extends keyof T>(event: TEvent): number;
 
     /**
      * Register a listener for an event, adding it to the end of listeners list.
@@ -108,7 +101,7 @@ export interface IObservable<T extends ICallbackDefinitions> {
      * @param event     The name of event to be listened.
      * @param callback  The callback of event listener.
      */
-    on<E extends keyof T>(event: E, callback: TRebuildFn<T[E]>): this;
+    on<TEvent extends keyof T>(event: TEvent, callback: T[TEvent]): this;
 
     /**
      * Register a one-time listener for an event, adding it to the end of
@@ -119,7 +112,7 @@ export interface IObservable<T extends ICallbackDefinitions> {
      * @param event     The name of event to be listened.
      * @param callback  The callback of event listener.
      */
-    once<E extends keyof T>(event: E, callback: TRebuildFn<T[E]>): this;
+    once<TEvent extends keyof T>(event: TEvent, callback: T[TEvent]): this;
 
     /**
      * Check if a listener callback is bound with an event.
@@ -127,9 +120,9 @@ export interface IObservable<T extends ICallbackDefinitions> {
      * @param event     The name of event to be listened.
      * @param callback  The callback of event listener.
      */
-    hasListener<E extends keyof T>(
-        event: E,
-        callback: TRebuildFn<T[E]>
+    hasListener<TEvent extends keyof T>(
+        event: TEvent,
+        callback: T[TEvent]
     ): boolean;
 
     /**
@@ -140,9 +133,9 @@ export interface IObservable<T extends ICallbackDefinitions> {
      *
      * @returns The number of listeners removed will be returned.
      */
-    removeListener<E extends keyof T>(
-        event: E,
-        callback?: TRebuildFn<T[E]>
+    removeListener<TEvent extends keyof T>(
+        event: TEvent,
+        callback?: T[TEvent]
     ): number;
 
     /**
@@ -155,9 +148,9 @@ export interface IObservable<T extends ICallbackDefinitions> {
      *
      * @returns The number of listeners removed will be returned.
      */
-    off<E extends keyof T>(
-        event: E,
-        callback?: TRebuildFn<T[E]>
+    off<TEvent extends keyof T>(
+        event: TEvent,
+        callback?: T[TEvent]
     ): number;
 }
 
@@ -173,7 +166,7 @@ export interface IEmitter<T extends ICallbackDefinitions>
      * @param event     The name of event to be emitted.
      * @param args      The arguments for the event.
      */
-    emit<E extends keyof T>(event: E, ...args: Parameters<T[E]>): boolean;
+    emit<TEvent extends keyof T>(event: TEvent, ...args: Parameters<T[TEvent]>): boolean;
 
     /**
      * Configure a specific event.
@@ -181,8 +174,8 @@ export interface IEmitter<T extends ICallbackDefinitions>
      * @param event     The name of event to be configured.
      * @param config    The configuration.
      */
-    configEvent<E extends keyof T>(
-        event: E,
+    configEvent<TEvent extends keyof T>(
+        event: TEvent,
         config: Partial<IConfiguration>
     ): this;
 

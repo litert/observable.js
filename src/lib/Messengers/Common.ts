@@ -21,12 +21,12 @@ export interface ISubjectTemplate {
     callback(...args: any[]): Promise<void> | void;
 }
 
-export type AsyncResult<IsAsync extends boolean, T, F> = IsAsync extends true ? Promise<T> : F;
+export type AsyncResult<TIsAsync extends boolean, T, TF> = TIsAsync extends true ? Promise<T> : TF;
 
 /**
  * @param {boolean} IsAsync Tell if the messenger itself is async.
  */
-export interface IMessenger<IsAsync extends boolean = false> {
+export interface IMessenger<TIsAsync extends boolean = false> {
 
     /**
      * Register a new subscriber for a subject.
@@ -39,7 +39,7 @@ export interface IMessenger<IsAsync extends boolean = false> {
         subject: T['subject'] | Array<T['subject']>,
         key: string | symbol,
         callback: T['callback']
-    ): AsyncResult<IsAsync, void, this>;
+    ): AsyncResult<TIsAsync, void, this>;
 
     /**
      * Unregister an existing subscriber from a subject.
@@ -47,14 +47,14 @@ export interface IMessenger<IsAsync extends boolean = false> {
      * @param subject   The subject of message.
      * @param key       The key of subscriber.
      */
-    unsubscribe(subject: string | symbol, key: string | symbol): AsyncResult<IsAsync, void, this>;
+    unsubscribe(subject: string | symbol, key: string | symbol): AsyncResult<TIsAsync, void, this>;
 
     /**
      * Unregister all subscribers of an existing subject.
      *
      * @param subject   The subject of message.
      */
-    unsubscribeAll(subject: string): AsyncResult<IsAsync, void, this>;
+    unsubscribeAll(subject: string): AsyncResult<TIsAsync, void, this>;
 
     /**
      * Publish a message to determined subject.
@@ -81,12 +81,12 @@ export interface IMessenger<IsAsync extends boolean = false> {
     /**
      * Get the name list of registered subjects.
      */
-    getSubjectList(): AsyncResult<IsAsync, string[], Array<string | symbol>>;
+    getSubjectList(): AsyncResult<TIsAsync, string[], Array<string | symbol>>;
 
     /**
      * Get the key list of registered subscribers in determined subject.
      *
      * @param subject   The subject to be listed.
      */
-    getSubscriberList(subject: string | symbol): AsyncResult<IsAsync, string[], Array<string | symbol>>;
+    getSubscriberList(subject: string | symbol): AsyncResult<TIsAsync, string[], Array<string | symbol>>;
 }

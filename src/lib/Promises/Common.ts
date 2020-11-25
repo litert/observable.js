@@ -30,7 +30,7 @@ export interface ISubjectTimeoutResult {
     ): Promise<void>;
 }
 
-export interface IPromiseHandle<T = any, E = any> {
+export interface IPromiseHandle<T = any, TE = any> {
 
     readonly id: TPromiseIdentity;
 
@@ -40,7 +40,7 @@ export interface IPromiseHandle<T = any, E = any> {
 
     resolve(value?: T): void;
 
-    reject(error: E): void;
+    reject(error: TE): void;
 
     promise: Promise<T>;
 }
@@ -79,9 +79,9 @@ export interface ITimeoutPromiseOptions extends IPromiseOptions {
 
 export interface IPromiseFactory {
 
-    createPromise<T = any, E = any>(opts?: IPromiseOptions): IPromiseHandle<T, E>;
+    createPromise<T = any, TE = any>(opts?: IPromiseOptions): IPromiseHandle<T, TE>;
 
-    createTimeoutPromise<T = any, E = any>(opts: ITimeoutPromiseOptions): IPromiseHandle<T, E>;
+    createTimeoutPromise<T = any, TE = any>(opts: ITimeoutPromiseOptions): IPromiseHandle<T, TE>;
 
-    findPromise<T = any, E = any>(id: TPromiseIdentity): IPromiseHandle<T, E> | null;
+    findPromise<T = any, TE = any>(id: TPromiseIdentity): IPromiseHandle<T, TE> | null;
 }
